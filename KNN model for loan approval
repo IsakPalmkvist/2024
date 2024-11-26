@@ -1,0 +1,40 @@
+import math
+
+
+loandata={"yes1":[100000,50], "no1": [15000, 50], "yes2":[57000,37], "yes3": [35000, 24], "no2": [42000, 60], "yes4": [64000,31], "yes5": [87000,45], "no3":[10000,17], "no4":[39000, 27], "no5":[54000, 40]}
+
+salaries=[]
+ages=[]
+distances=[]
+keys=[]
+
+
+
+def knn(k, income, age):
+
+    for key, value in loandata.items():
+        salaries.append(value[0])
+        ages.append(value[1])
+    
+    for x in range(len(loandata)):
+        dist=(math.sqrt((salaries[x]-income)**2 + (ages[x]-age)**2))
+        distances.append((dist, list(loandata.items())[x][0]))
+
+    distances.sort()
+
+    closest = distances[:k]
+    
+    keys = [y[1] for y in closest]
+
+
+    yeslist=[key for key in keys if key.startswith("yes")]
+    nolist=[key for key in keys if key.startswith("no")]
+
+    if len(yeslist)>len(nolist):
+        print("Loan Approved")
+    elif len(yeslist)<len(nolist):
+        print("Loan Dissaproved")
+    elif len(yeslist)==len(nolist):
+        print("No clue, contact bank")
+
+knn(3, 55000, 20)
